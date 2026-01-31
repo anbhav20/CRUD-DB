@@ -5,7 +5,10 @@ require('dotenv').config();
 connecToDb();
 
 const PORT = process.env.PORT||3000;
-//create notes, req.body kaam ni krega jab tak app.use(express.json()), middleware use ni kroge!
+
+/*post method
+create notes, req.body kaam ni krega jab tak app.use(express.json()), middleware use ni kroge!
+*/
 app.post('/notes', async (req, res)=>{
     const {title, discription}= req.body;
     const note = await NotesModel.create({
@@ -19,6 +22,19 @@ app.post('/notes', async (req, res)=>{
     })
 
 })
+
+/*
+get method,  find method humesha array of obj return krta h [{}]
+*/
+app.get('/notes', async (req, res)=>{
+   const notes= await NotesModel.find();
+   res.status(200).json({
+    message:"all notes fetced sucessfully!!",
+    notes
+   });
+});
+
+
 
 app.listen(PORT,()=>{
     console.log(`server is runing on ${PORT}`);
